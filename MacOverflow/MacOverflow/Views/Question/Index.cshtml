@@ -1,0 +1,231 @@
+﻿@model MacOverflow.ViewModels.SearchQuestionIndexViewModel;
+@{
+    ViewData["Title"] = "Home Page";
+    ViewBag.Current = "Question";
+}
+
+<h3 style="margin-top: 15px">Search Questions</h3>
+
+<form asp-action="Index" method="get">
+    <div class="form-group">
+        <label class="control-label" style="margin-top: 15px">Sort</label>
+        <select asp-for="SortBy" class="form-control" onchange="this.form.submit()">
+            <option value="Likes High to Low">
+                Likes High to Low
+            </option>
+            <option value="Likes Low to High">
+                Likes Low to High
+            </option>
+            <option value="Time Posted Newer to Older">
+                Time Posted Newer to Older
+            </option>
+            <option value="Time Posted Older to Newer">
+                Time Posted Older to Newer
+            </option>
+        </select>
+        <div class="row" style="margin-top: 15px; margin-left: 0px">
+            <label class="control-label">Filter Importance Level</label>
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal1" style="margin-left: 5px">Open Filter</button>
+            <label class="control-label" style="margin-left: 15px">Filter Recommended Audience</label>
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal2" style="margin-left: 5px">Open Filter</button>
+        </div>
+        <label class="control-label">Search for Question</label>
+        <div class="row" style=" margin-left: 0px">
+            <div class="col-lg-8" style="padding: 0px">
+                <input asp-for="SearchTerm" class="form-control" />
+            </div>
+            <div class="col-lg-4" style="padding: 0px">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal1" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Importance Level Filters</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-lg-12">
+                        @if (Model.FilterHigh)
+                        {
+                            <label class="control-label">Filter High</label>
+                            <input type="checkbox" asp-for="FilterHigh" class="form-control" checked="checked" />
+                        }
+                        else
+                        {
+                            <label class="control-label">Filter High</label>
+                            <input type="checkbox" asp-for="FilterHigh" class="form-control" />
+                        }
+
+                        @if (Model.FilterMedium)
+                        {
+                            <label class="control-label">Filter Medium</label>
+                            <input type="checkbox" asp-for="FilterMedium" class="form-control" checked="checked" />
+                        }
+                        else
+                        {
+                            <label class="control-label">Filter Medium</label>
+                            <input type="checkbox" asp-for="FilterMedium" class="form-control" />
+                        }
+
+                        @if (Model.FilterLow)
+                        {
+                            <label class="control-label">Filter Low</label>
+                            <input type="checkbox" asp-for="FilterLow" class="form-control" checked="checked" />
+                        }
+                        else
+                        {
+                            <label class="control-label">Filter Low</label>
+                            <input type="checkbox" asp-for="FilterLow" class="form-control" />
+                        }
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-left: 15px">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal2" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Recommended Audience Filters</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-lg-12">
+                        <div class="col-lg-12">
+                            @if (Model.FilterPeer)
+                            {
+                                <label class="control-label">Filter Peers</label>
+                                <input type="checkbox" asp-for="FilterPeer" class="form-control" checked="checked" />
+                            }
+                            else
+                            {
+                                <label class="control-label">Filter Peers</label>
+                                <input type="checkbox" asp-for="FilterPeer" class="form-control" />
+                            }
+
+                            @if (Model.FilterTa)
+                            {
+                                <label class="control-label">Filter Teaching Assistants</label>
+                                <input type="checkbox" asp-for="FilterTa" class="form-control" checked="checked" />
+                            }
+                            else
+                            {
+                                <label class="control-label">Filter Teaching Assistants</label>
+                                <input type="checkbox" asp-for="FilterTa" class="form-control" />
+                            }
+
+                            @if (Model.FilterProf)
+                            {
+                                <label class="control-label">Filter Professors</label>
+                                <input type="checkbox" asp-for="FilterProf" class="form-control" checked="checked" />
+                            }
+                            else
+                            {
+                                <label class="control-label">Filter Professors</label>
+                                <input type="checkbox" asp-for="FilterProf" class="form-control" />
+                            }
+
+                            @if (Model.FilterAdmin)
+                            {
+                                <label class="control-label">Filter University Administrators</label>
+                                <input type="checkbox" asp-for="FilterAdmin" class="form-control" checked="checked" />
+                            }
+                            else
+                            {
+                                <label class="control-label">Filter University Administrators</label>
+                                <input type="checkbox" asp-for="FilterAdmin" class="form-control" />
+                            }
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-left: 15px">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+<table class="table table-hover" style="margin-top: 15px">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Topic
+            </th>
+            <th>
+                Importance Level
+            </th>
+            <th>
+                Recommended Audience
+            </th>
+            <th>
+                Is Approved
+            </th>
+            <th>
+                Likes
+            </th>
+            <th>
+                Created By
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var question in Model.Questions)
+        {
+            <tr>
+                @if (question.Title.Length > 23)
+                {
+                    <td>
+                        @question.Title.Substring(20)...
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @question.Title
+                    </td>
+                }
+                <td>
+                    @question.Topic.Topic
+                </td>
+                <td>
+                    @question.ImportanceLevel
+                </td>
+                <td>
+                    @question.RecommendedAudience
+                </td>
+                <td>
+                    @question.IsApproved
+                </td>
+                <td>
+                    @question.Likes
+                </td>
+                <td>
+                    @question.User
+                </td>
+                <td>
+                    <a type="submit" asp-action="Details" asp-route-id="@question.QuestionId" class="btn btn-default">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<footer class="border-top footer" style="margin-left: -15px">
+    <a type="button" asp-action="Create" asp-controller="MyQuestion" class="btn btn-primary" style="margin-left: 15px">Create Question</a>
+</footer>
+
+
+

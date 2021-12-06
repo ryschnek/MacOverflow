@@ -1,0 +1,180 @@
+﻿@model MacOverflow.ViewModels.QuestionEditViewModel;
+@{
+    ViewData["Title"] = "Home Page";
+    ViewBag.Current = "Profile";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h3 style="margin-top: 15px">Edit Question: @Model.Question.Title</h3>
+    <form method="post">
+        <div class="row" style="margin-top: 15px">
+            <div class="col-lg-12">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Question.Title" class="control-label"></label>
+                    <input asp-for="Question.Title" class="form-control" />
+                    <span asp-validation-for="Question.Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Question.Question" class="control-label"></label>
+                    <input asp-for="Question.Question" class="form-control" />
+                    <span asp-validation-for="Question.Question" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Question.Topic" class="control-label"></label>
+                    <select asp-for="Question.TopicId" class="form-control">
+                        @foreach (var topic in Model.Topics)
+                        {
+                            if (topic.TopicId == Model.Question.TopicId)
+                            {
+                                <option value="@topic.TopicId" selected="selected">
+                                    @topic.Topic
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="@topic.TopicId">
+                                    @topic.Topic
+                                </option>
+                            }
+
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Question.ImportanceLevel" class="control-label"></label>
+                    <select asp-for="Question.ImportanceLevel" class="form-control">
+                        @if (Model.Question.ImportanceLevel == "High")
+                        {
+                            <option value="High" selected="selected">
+                                High
+                            </option>
+                            <option value="Medium">
+                                Medium
+                            </option>
+                            <option value="Low">
+                                Low
+                            </option>
+                        }
+                        else if (Model.Question.ImportanceLevel == "Medium")
+                        {
+                            <option value="High">
+                                High
+                            </option>
+                            <option value="Medium" selected="selected">
+                                Medium
+                            </option>
+                            <option value="Low">
+                                Low
+                            </option>
+                        }
+                        else if (Model.Question.ImportanceLevel == "Low")
+                        {
+                            <option value="High">
+                                High
+                            </option>
+                            <option value="Medium">
+                                Medium
+                            </option>
+                            <option value="Low" selected="selected">
+                                Low
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="Question.ImportanceLevel" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Question.RecommendedAudience" class="control-label"></label>
+                    <select asp-for="Question.RecommendedAudience" class="form-control">
+                        @if (Model.Question.RecommendedAudience == "Peers")
+                        {
+                            <option value="Peers" selected="selected">
+                                Peers
+                            </option>
+                            <option value="Teaching Assistants">
+                                Teaching Assistants
+                            </option>
+                            <option value="Professors">
+                                Professors
+                            </option>
+                            <option value="University Administrators">
+                                University Administrators
+                            </option>
+                        }
+                        else if (Model.Question.RecommendedAudience == "Teaching Assistants")
+                        {
+                            <option value="Peers">
+                                Peers
+                            </option>
+                            <option value="Teaching Assistants" selected="selected">
+                                Teaching Assistants
+                            </option>
+                            <option value="Professors">
+                                Professors
+                            </option>
+                            <option value="University Administrators">
+                                University Administrators
+                            </option>
+                        }
+                        else if (Model.Question.RecommendedAudience == "Professors")
+                        {
+                            <option value="Peers">
+                                Peers
+                            </option>
+                            <option value="Teaching Assistants">
+                                Teaching Assistants
+                            </option>
+                            <option value="Professors" selected="selected">
+                                Professors
+                            </option>
+                            <option value="University Administrators">
+                                University Administrators
+                            </option>
+                        }
+                        else if (Model.Question.RecommendedAudience == "University Administrators")
+                        {
+                            <option value="Peers">
+                                Peers
+                            </option>
+                            <option value="Teaching Assistants">
+                                Teaching Assistants
+                            </option>
+                            <option value="Professors">
+                                Professors
+                            </option>
+                            <option value="University Administrators" selected="selected">
+                                University Administrators
+                            </option>
+                        }
+
+                    </select>
+                    <span asp-validation-for="Question.RecommendedAudience" class="text-danger"></span>
+                </div>
+                @Html.HiddenFor(i => i.Question.QuestionId)
+                @Html.HiddenFor(i => i.Question.IsApproved)
+                @Html.HiddenFor(i => i.Question.Likes)
+                @Html.HiddenFor(i => i.Question.User)
+                @Html.HiddenFor(i => i.Question.CreatedByUserId)
+                @Html.HiddenFor(i => i.Question.CreatedOnDt)
+                @Html.HiddenFor(i => i.Question.LastEditedByUserId)
+                @Html.HiddenFor(i => i.Question.LastEditedOnDt)
+
+            </div>
+        </div>
+        <footer class="border-top footer" style="margin-left: -15px">
+            <button type="submit" asp-action="Edit" class="btn btn-success" style="margin-left: 15px">Edit</button>
+        </footer>
+    </form>
+}
+else
+{
+    <h3>Edit Question</h3>
+
+    <p>In order to view edit questions you must Login or Register in the application</p>
+    <a class="btn btn-light" asp-action="Login" asp-controller="Account">Login</a>
+    <a class="btn btn-light" asp-action="Register" asp-controller="Account">Register</a>
+}
+
+

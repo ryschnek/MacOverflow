@@ -1,0 +1,102 @@
+﻿@model MacOverflow.ViewModels.HomeViewModel;
+@{
+    ViewData["Title"] = "Home Page";
+    ViewBag.Current = "Home";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h3 style="margin-bottom: 15px; margin-top:15px">My Topics</h3>
+    <div class="row" style="margin-bottom: 15px">
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="margin-left: 15px">Manage Topics</button>
+    </div>
+
+    @foreach (var topic in Model.MyTopics)
+    {
+        if (topic.TopicCategory == "Course")
+        {
+            <a type="button" class="btn" asp-action="Index" asp-controller="Question" asp-route-filter="@topic.TopicId" style="width: 200px; height: 200px; background-color: green; margin-right: 5px">@topic.Topic</a>
+        }
+        else if (topic.TopicCategory == "Administrative")
+        {
+            <a type="button" class="btn" asp-action="Index" asp-controller="Question" asp-route-filter="@topic.TopicId" style="width: 200px; height: 200px; background-color: red; margin-right: 5px">@topic.Topic</a>
+        }
+        else if (topic.TopicCategory == "Miscellaneous")
+        {
+            <a type="button" class="btn" asp-action="Index" asp-controller="Question" asp-route-filter="@topic.TopicId" style="width: 200px; height: 200px; background-color: orange; margin-right: 5px">@topic.Topic</a>
+        }
+
+    }
+    <footer class="border-top footer" style="margin-left: -15px">
+        <a type="button" asp-action="Create" asp-controller="MyQuestion" class="btn btn-primary" style="margin-left: 15px">Create Question</a>
+        <a type="button" asp-action="Create" asp-controller="Topic" class="btn btn-primary">Create Topic</a>
+    </footer>
+}
+else
+{
+    <h3 style="margin-top: 15px">Home</h3>
+
+    <p>In order to view your homescreen you must Login or Register in the application</p>
+    <a class="btn btn-light" asp-action="Login" asp-controller="Account">Login</a>
+    <a class="btn btn-light" asp-action="Register" asp-controller="Account">Register</a>
+}
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Topics</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Topic
+                                </th>
+                                <th>
+                                    Category
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var topic in Model.AllTopics)
+                            {
+                                <tr>
+                                    <td>
+                                        @topic.Topic
+                                    </td>
+                                    <td>
+                                        @topic.TopicCategory
+                                    </td>
+                                    <td>
+                                        @if (topic.IsSubscribed)
+                                        {
+                                            <form method="get" asp-action="RemoveTopic" asp-route-id="@topic.TopicId">
+                                                <input onchange="this.form.submit()" type="checkbox" checked="checked" />
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <form method="get" asp-action="AddTopic" asp-route-id="@topic.TopicId">
+                                                <input onchange="this.form.submit()" type="checkbox" />
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

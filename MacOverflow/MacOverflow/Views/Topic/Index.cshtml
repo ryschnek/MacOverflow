@@ -1,0 +1,76 @@
+﻿@model MacOverflow.ViewModels.TopicIndexViewModel;
+@{
+    ViewData["Title"] = "Home Page";
+    ViewBag.Current = "Profile";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h3 style="margin-top: 15px">My Topics</h3>
+    <table class="table table-hover" style="margin-top: 15px">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Category
+                </th>
+                <th>
+                    Comment Approval Required
+                </th>
+                <th>
+                    Response Approval Required
+                </th>
+                <th>
+                    Day Created
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var topic in Model.MyTopics)
+            {
+                <tr>
+                    <td>
+                        @topic.Topic
+                    </td>
+                    <td>
+                        @topic.TopicCategory
+                    </td>
+                    <td>
+                        @topic.ModCommentApproval
+                    </td>
+                    <td>
+                        @topic.ModResponseApproval
+                    </td>
+                    <td>
+                        @topic.CreatedOnDt
+                    </td>
+                    <td>
+                        <a type="submit" asp-action="Edit" asp-route-id="@topic.TopicId" class="btn btn-success">Edit</a>
+                    </td>
+                    <td>
+                        <a type="submit" asp-action="Delete" asp-route-id="@topic.TopicId" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <footer class="border-top footer" style="margin-left: -15px">
+        <a type="button" asp-action="Create" class="btn btn-primary" style="margin-left: 15px">Create Topic</a>
+    </footer>
+}
+else
+{
+    <h3 style="margin-top: 15px">Topics</h3>
+
+    <p>In order to view your topics you must Login or Register in the application</p>
+    <a class="btn btn-light" asp-action="Login" asp-controller="Account">Login</a>
+    <a class="btn btn-light" asp-action="Register" asp-controller="Account">Register</a>
+}
+
+
+

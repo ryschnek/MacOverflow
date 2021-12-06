@@ -1,0 +1,23 @@
+﻿@model MacOverflow.ViewModels.HomeViewModel;
+@{
+    ViewData["Title"] = "Home Page";
+    ViewBag.Current = "Profile";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h3 style="margin-top: 15px">Your Account</h3>
+    <p style="margin-top: 15px">You are currently signed into the account "@User.Identity.Name" click button to Sign Out</p>
+    <a class="btn btn-danger" asp-action="Logout" asp-controller="Account" style="margin-top: 15px">Sign Out</a>
+}
+else
+{
+    <h3 style="margin-top: 15px">Your Account</h3>
+    <p style="margin-top: 15px">You are currently not signed into an account either login to an existing account or register a new one</p>
+    <div class="row" style="margin-top: 15px; margin-left: 15px">
+        <a class="btn btn-light" asp-action="Login" asp-controller="Account">Login</a>
+        <a class="btn btn-light" asp-action="Register" asp-controller="Account">Register</a>
+    </div>
+}
+
+

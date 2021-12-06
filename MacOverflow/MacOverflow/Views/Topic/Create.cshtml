@@ -1,0 +1,63 @@
+﻿@model MacOverflow.ViewModels.TopicCreateViewModel;
+@{
+    ViewData["Title"] = "Profile";
+    ViewBag.Current = "Profile";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h3 style="margin-top: 15px">Create Topic</h3>
+    <form method="post">
+        <div class="row" style="margin-top: 15px">
+            <div class="col-lg-12">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Topic.Topic" class="control-label"></label>
+                    <input asp-for="Topic.Topic" class="form-control" />
+                    <span asp-validation-for="Topic.Topic" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Topic.TopicCategory" class="control-label"></label>
+                    <select asp-for="Topic.TopicCategory" class="form-control">
+                        <option selected="selected" disabled="disabled">
+                            ------Select a Category for the topic------
+                        </option>
+                        <option value="Course">
+                            Course
+                        </option>
+                        <option value="Administrative">
+                            Administrative
+                        </option>
+                        <option value="Miscellaneous">
+                            Miscellaneous
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Topic.ModCommentApproval" class="control-label"></label>
+                    <input asp-for="Topic.ModCommentApproval" class="form-control" />
+                    <span asp-validation-for="Topic.ModCommentApproval" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Topic.ModResponseApproval" class="control-label"></label>
+                    <input asp-for="Topic.ModResponseApproval" class="form-control" />
+                    <span asp-validation-for="Topic.ModResponseApproval" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <footer class="border-top footer" style="margin-left: -15px">
+            <button type="submit" asp-action="Create" class="btn btn-primary" style="margin-left: 15px">Create</button>
+        </footer>
+    </form>
+}
+else
+{
+    <h3>Create Topic</h3>
+
+    <p>In order to create a topic you must Login or Register in the application</p>
+    <a class="btn btn-light" asp-action="Login" asp-controller="Account">Login</a>
+    <a class="btn btn-light" asp-action="Register" asp-controller="Account">Register</a>
+}
+
+

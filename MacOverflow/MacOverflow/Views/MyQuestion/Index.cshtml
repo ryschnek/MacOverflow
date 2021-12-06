@@ -1,0 +1,102 @@
+﻿@model MacOverflow.ViewModels.QuestionIndexViewModel;
+@{
+    ViewData["Title"] = "Home Page";
+    ViewBag.Current = "Profile";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h3 style="margin-top: 15px">My Questions</h3>
+    <table class="table table-hover" style="margin-top: 15px">
+        <thead>
+            <tr>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Topic
+                </th>
+                <th>
+                    Importance Level
+                </th>
+                <th>
+                    Recommended Audience
+                </th>
+                <th>
+                    Is Approved
+                </th>
+                <th>
+                    Likes
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var question in Model.MyQuestions)
+            {
+            <tr>
+                @if (question.Title.Length > 23)
+                {
+                    <td>
+                        @question.Title.Substring(20)...
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @question.Title
+                    </td>
+                }
+                <td>
+                    @question.Topic.Topic
+                </td>
+                <td>
+                    @question.ImportanceLevel
+                </td>
+                <td>
+                    @question.RecommendedAudience
+                </td>
+                <td>
+                    @question.IsApproved
+                </td>
+                <td>
+                    @question.Likes
+                </td>
+                @if (question.IsApproved)
+                {
+                    <td>
+                        <a type="submit" asp-action="Details" asp-controller="Question" asp-route-id="@question.QuestionId" class="btn btn-default">View</a>
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+                }
+                <td>
+                    <a type="submit" asp-action="Edit" asp-route-id="@question.QuestionId" class="btn btn-success">Edit</a>
+                </td>
+                <td>
+                    <a type="submit" asp-action="Delete" asp-route-id="@question.QuestionId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <footer class="border-top footer" style="margin-left: -15px">
+        <a type="button" asp-action="Create" asp-controller="MyQuestion" class="btn btn-primary" style="margin-left: 15px">Create Question</a>
+    </footer>
+}
+else
+{
+    <h3 style="margin-top: 15px">Questions</h3>
+
+    <p>In order to view your questions you must Login or Register in the application</p>
+    <a class="btn btn-light" asp-action="Login" asp-controller="Account">Login</a>
+    <a class="btn btn-light" asp-action="Register" asp-controller="Account">Register</a>
+}
+
+
+
